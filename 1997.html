@@ -1,0 +1,490 @@
+﻿
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge"><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={licenseKey:"e025d0e2ec",applicationID:"17669092"};window.NREUM||(NREUM={}),__nr_require=function(n,e,t){function r(t){if(!e[t]){var i=e[t]={exports:{}};n[t][0].call(i.exports,function(e){var i=n[t][1][e];return r(i||e)},i,i.exports)}return e[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<t.length;i++)r(t[i]);return r}({1:[function(n,e,t){function r(){}function i(n,e,t){return function(){return o(n,[u.now()].concat(f(arguments)),e?null:this,t),e?void 0:this}}var o=n("handle"),a=n(4),f=n(5),c=n("ee").get("tracer"),u=n("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(n,e){s[e]=i(d+e,!0,"api")}),s.addPageAction=i(d+"addPageAction",!0),s.setCurrentRouteName=i(d+"routeName",!0),e.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(n,e){var t={},r=this,i="function"==typeof e;return o(l+"tracer",[u.now(),n,t],r),function(){if(c.emit((i?"":"no-")+"fn-start",[u.now(),r,i],t),i)try{return e.apply(this,arguments)}catch(n){throw c.emit("fn-err",[arguments,this,n],t),n}finally{c.emit("fn-end",[u.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(n,e){m[e]=i(l+e)}),newrelic.noticeError=function(n,e){"string"==typeof n&&(n=new Error(n)),o("err",[n,u.now(),!1,e])}},{}],2:[function(n,e,t){function r(n,e){var t=n.getEntries();t.forEach(function(n){"first-paint"===n.name?a("timing",["fp",Math.floor(n.startTime)]):"first-contentful-paint"===n.name&&a("timing",["fcp",Math.floor(n.startTime)])})}function i(n){if(n instanceof c&&!s){var e,t=Math.round(n.timeStamp);e=t>1e12?Date.now()-t:f.now()-t,s=!0,a("timing",["fi",t,{type:n.type,fid:e}])}}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var o,a=n("handle"),f=n("loader"),c=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){o=new PerformanceObserver(r);try{o.observe({entryTypes:["paint"]})}catch(u){}}if("addEventListener"in document){var s=!1,p=["click","keydown","mousedown","pointerdown","touchstart"];p.forEach(function(n){document.addEventListener(n,i,!1)})}}},{}],3:[function(n,e,t){function r(n,e){if(!i)return!1;if(n!==i)return!1;if(!e)return!0;if(!o)return!1;for(var t=o.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var f=navigator.userAgent,c=f.match(a);c&&f.indexOf("Chrome")===-1&&f.indexOf("Chromium")===-1&&(i="Safari",o=c[1])}e.exports={agent:i,version:o,match:r}},{}],4:[function(n,e,t){function r(n,e){var t=[],r="",o=0;for(r in n)i.call(n,r)&&(t[o]=e(r,n[r]),o+=1);return t}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],5:[function(n,e,t){function r(n,e,t){e||(e=0),"undefined"==typeof t&&(t=n?n.length:0);for(var r=-1,i=t-e||0,o=Array(i<0?0:i);++r<i;)o[r]=n[e+r];return o}e.exports=r},{}],6:[function(n,e,t){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(n,e,t){function r(){}function i(n){function e(n){return n&&n instanceof r?n:n?c(n,f,o):o()}function t(t,r,i,o){if(!d.aborted||o){n&&n(t,r,i);for(var a=e(i),f=v(t),c=f.length,u=0;u<c;u++)f[u].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(n,e){h[n]=v(n).concat(e)}function m(n,e){var t=h[n];if(t)for(var r=0;r<t.length;r++)t[r]===e&&t.splice(r,1)}function v(n){return h[n]||[]}function g(n){return p[n]=p[n]||i(t)}function w(n,e){u(n,function(n,t){e=e||"feature",y[t]=e,e in s||(s[e]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:e,buffer:w,abort:a,aborted:!1};return b}function o(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var f="nr@context",c=n("gos"),u=n(4),s={},p={},d=e.exports=i();d.backlog=s},{}],gos:[function(n,e,t){function r(n,e,t){if(i.call(n,e))return n[e];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(n,e,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return n[e]=r,r}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(n,e,t){function r(n,e,t,r){i.buffer([n],r),i.emit(n,e,t)}var i=n("ee").get("handle");e.exports=r,r.ee=i},{}],id:[function(n,e,t){function r(n){var e=typeof n;return!n||"object"!==e&&"function"!==e?-1:n===window?0:a(n,o,function(){return i++})}var i=1,o="nr@id",a=n("gos");e.exports=r},{}],loader:[function(n,e,t){function r(){if(!x++){var n=E.info=NREUM.info,e=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(n&&n.licenseKey&&n.applicationID&&e))return s.abort();u(y,function(e,t){n[e]||(n[e]=t)}),c("mark",["onload",a()+E.offset],null,"api");var t=l.createElement("script");t.src="https://"+n.agent,e.parentNode.insertBefore(t,e)}}function i(){"complete"===l.readyState&&o()}function o(){c("mark",["domContent",a()+E.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(f=Math.max((new Date).getTime(),f))-E.offset}var f=(new Date).getTime(),c=n("handle"),u=n(4),s=n("ee"),p=n(3),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1158.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),E=e.exports={offset:f,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};n(1),n(2),l[m]?(l[m]("DOMContentLoaded",o,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",i),d[v]("onload",r)),c("mark",["firstbyte",f],null,"api");var x=0,O=n(6)},{}],"wrap-function":[function(n,e,t){function r(n){return!(n&&n instanceof Function&&n.apply&&!n[a])}var i=n("ee"),o=n(5),a="nr@original",f=Object.prototype.hasOwnProperty,c=!1;e.exports=function(n,e){function t(n,e,t,i){function nrWrapper(){var r,a,f,c;try{a=this,r=o(arguments),f="function"==typeof t?t(r,a):t||{}}catch(u){d([u,"",[r,a,i],f])}s(e+"start",[r,a,i],f);try{return c=n.apply(a,r)}catch(p){throw s(e+"err",[r,a,p],f),p}finally{s(e+"end",[r,a,c],f)}}return r(n)?n:(e||(e=""),nrWrapper[a]=n,p(n,nrWrapper),nrWrapper)}function u(n,e,i,o){i||(i="");var a,f,c,u="-"===i.charAt(0);for(c=0;c<e.length;c++)f=e[c],a=n[f],r(a)||(n[f]=t(a,u?f+i:i,o,f))}function s(t,r,i){if(!c||e){var o=c;c=!0;try{n.emit(t,r,i,e)}catch(a){d([a,t,r,i])}c=o}}function p(n,e){if(Object.defineProperty&&Object.keys)try{var t=Object.keys(n);return t.forEach(function(t){Object.defineProperty(e,t,{get:function(){return n[t]},set:function(e){return n[t]=e,e}})}),e}catch(r){d([r])}for(var i in n)f.call(n,i)&&(e[i]=n[i]);return e}function d(e){try{n.emit("internal-error",e)}catch(t){}}return n||(n=i),t.inPlace=u,t.flag=a,t}},{}]},{},["loader"]);</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Start HPI related Metatags -->
+<meta name="company_code" content="hpi"/>
+<meta content="IPG" name="bu" />
+<meta content="hpcleansheetnontridion" name="hp_design_version" />
+<meta content="ihfcaas.3" name="hp_inav_version" />
+<meta content="hp, developer, portal" name="keywords" />
+<meta content="applied_use" name="lifecycle" />
+<meta content="Products" name="page_content" />
+<meta content="Segment Neutral" name="segment" />
+<meta content="us" name="target_country" />
+<meta content = "yes" name="TMS" />
+<meta content="Commercial.Developer" name="user_profile" />
+<meta content="R11979" name="web_section_id" />
+<!-- End HPI related Metatags -->
+  
+  <title>hp&#039;s Developer Portal | MobileScan SDK Docs</title>
+  
+  <style>
+@import url("https://developers.hp.com/modules/system/system.base.css?q3th5u");
+</style>
+<style>
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.core.min.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.theme.min.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.menu.min.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.autocomplete.min.css?q3th5u");
+</style>
+<style>
+@import url("https://developers.hp.com/sites/all/modules/custom/ckeditor_accordion/accordion/css/hp-ckeditor-accordion.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/contrib/ckeditor_tabber/ckeditor_tabber.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/date/date_api/date.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/date/date_popup/themes/datepicker.1.7.css?q3th5u");
+@import url("https://developers.hp.com/modules/field/theme/field.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/contrib/filebrowser/css/filebrowser_style.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_api_doc/css/hp_api_doc.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_hackathon/css/hp_hackathon.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_new_manage_apps/css/hp_new_manage_apps.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/logintoboggan/logintoboggan.css?q3th5u");
+@import url("https://developers.hp.com/modules/node/node.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/contrib/wfm/styles.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/views/css/views.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/ckeditor/css/ckeditor.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/media/modules/media_wysiwyg/css/media_wysiwyg.base.css?q3th5u");
+</style>
+<style>
+@import url("https://developers.hp.com/profiles/apigee/modules/contrib/ctools/css/ctools.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_extras/css/hp_extras.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_github_access/css/hp_github_access.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_my_apps/css/hp_my_apps.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/themes/hp_responsive/css/hp_bu_responsive.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_search_redesign/hp_search_redesign.css?q3th5u");
+@import url("https://developers.hp.com/profiles/apigee/modules/custom/devconnect/smartdocs/css/smartdocs.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/contrib/search_autocomplete/css/themes/user-blue.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/contrib/search_autocomplete/css/themes/basic-green.css?q3th5u");
+</style>
+<style>#legal-notices .modalcontent{background:white;!important;}#tg-sb-content summary{padding-right:0.35em;margin-bottom:10px;color:#0096D6;}
+</style>
+<style>
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_openid_connect/css/hp_openid_connect.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/modules/custom/hp_migrate_hplip/hp_migrate_hplip.css?q3th5u");
+</style>
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/css/bootstrap.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unicorn-fail/drupal-bootstrap-styles@0.0.2/dist/3.3.1/7.x-3.x/drupal-bootstrap.css" media="all" />
+<style>
+@import url("https://developers.hp.com/sites/all/themes/hp_responsive/css/hp_responsive.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/themes/hp_responsive/css/hp_nav.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/themes/hp_responsive/css/hp_jetadvantage.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/themes/hp_responsive/css/hp_smartdocs.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/themes/hp_responsive/css/hp_qa.css?q3th5u");
+@import url("https://developers.hp.com/sites/all/themes/hp_responsive/css/hp_responsive_table.css?q3th5u");
+</style>
+<style>@media (min-width:600px) and (max-width:1024px){#mobleft-total{background-position:516px;}}
+.depthsecondclass{display:none;}}
+@media screen and (max-width:575px){.region-sidebar-first{display:none;}}
+@media screen and (max-width:640px){.region-sidebar-first{display:none;}}
+@media screen and (max-width:767px){.region-sidebar-first{display:none;}}
+#block-hp-redesign-bu-hp-redesign-og-leftnav-block{margin-top:117px;}
+#block-hp-redesign-bu-hp-redesign-og-leftnav-block{margin-top:117px;}
+.hp-ogmenu-dropdown-block .ui-helper-hidden-accessible{position:unset;padding:9px}
+</style>
+<style>
+@import url("https://developers.hp.com/sites/all/modules/contrib/prettify/styles/sunburst.css?q3th5u");
+</style>
+  
+  <!-- HTML5 element support for IE6-8 -->
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <script type="text/javascript">
+    var Apigee = Apigee || {};
+    Apigee.APIModel = Apigee.APIModel || {};
+  </script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write("<script src='/profiles/apigee/modules/contrib/jquery_update/replace/jquery/1.12/jquery.min.js'>\x3C/script>")</script>
+<script src="https://developers.hp.com/misc/jquery-extend-3.4.0.js?v=1.12.4"></script>
+<script src="https://developers.hp.com/misc/jquery.once.js?v=1.2"></script>
+<script src="https://developers.hp.com/misc/drupal.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/contrib/jquery_dollar/jquery_dollar.js?q3th5u"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<script>window.jQuery.ui || document.write("<script src='/profiles/apigee/modules/contrib/jquery_update/replace/ui/ui/minified/jquery-ui.min.js'>\x3C/script>")</script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/prettify.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-apollo.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-css.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-hs.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-lisp.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-lua.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-ml.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-proto.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-scala.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-sql.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-wiki.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/libraries/prettify/src/lang-yaml.js?q3th5u"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.5/dist/js/bootstrap.js"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/ckeditor_accordion/accordion/js/ckeditor-accordion.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/contrib/ckeditor_tabber/semantic-tabs.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_bu_ga/js/hp_bu_ga_admin.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_partner_profile/js/hp_partner_profile.js?q3th5u"></script>
+<script src="https://www.google.com/jsapi"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_bu_ga/js/hp_bu_ga_event_tracking.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_my_apps/js/hp_my_apps.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_new_manage_apps/js/hp_new_manage_apps.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_og_email_blast/js/hp_og_email_blast.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_redesign/js/hp_redesign_ga.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_search_redesign/hp_search_redesign.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/contrib/prettify/prettify.loader.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_redesign_bu/js/hp_leftnav.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/contrib/search_autocomplete/js/jquery.autocomplete.js?q3th5u"></script>
+<script src="https://developers.hp.com/profiles/apigee/modules/contrib/google_analytics/googleanalytics.js?q3th5u"></script>
+<script>(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","https://www.google-analytics.com/analytics.js","ga");ga("create", "UA-69174635-2", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("set", "dimension1", "Mobile Scan SDK");ga("send", "pageview");</script>
+<script src="https://developers.hp.com/profiles/apigee/modules/contrib/bootstrap_modal_forms/js/bootstrap_modal_forms.forms.js?q3th5u"></script>
+<script src="https://www8.hp.com/ww/en/system/include/privacy_cookie.JS"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_extras/js/clipboard-js/clipboard.min.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_extras/js/hp_extras.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_github_access/js/hp_github_access.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_migrate_hplip/jquery.navgoco.min.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_migrate_hplip/toc.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/themes/hp_responsive/js/hp_responsive.js?q3th5u"></script>
+<script src="https://developers.hp.com/sites/all/themes/hp_responsive/js/back_button.js?q3th5u"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"hp_responsive","theme_token":"flfoi_fd0H3pTKA1UtVfaWeGynlFM5i17E23DAzG47Y","js":{"sites\/all\/modules\/custom\/hp_jetadvantage_contacts\/inputmask.js":1,"profiles\/apigee\/themes\/bootstrap\/js\/bootstrap.js":1,"0":1,"1":1,"2":1,"3":1,"4":1,"5":1,"\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.12.4\/jquery.min.js":1,"6":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_dollar\/jquery_dollar.js":1,"\/\/ajax.googleapis.com\/ajax\/libs\/jqueryui\/1.10.2\/jquery-ui.min.js":1,"7":1,"sites\/all\/libraries\/prettify\/src\/prettify.js":1,"sites\/all\/libraries\/prettify\/src\/lang-apollo.js":1,"sites\/all\/libraries\/prettify\/src\/lang-css.js":1,"sites\/all\/libraries\/prettify\/src\/lang-hs.js":1,"sites\/all\/libraries\/prettify\/src\/lang-lisp.js":1,"sites\/all\/libraries\/prettify\/src\/lang-lua.js":1,"sites\/all\/libraries\/prettify\/src\/lang-ml.js":1,"sites\/all\/libraries\/prettify\/src\/lang-proto.js":1,"sites\/all\/libraries\/prettify\/src\/lang-scala.js":1,"sites\/all\/libraries\/prettify\/src\/lang-sql.js":1,"sites\/all\/libraries\/prettify\/src\/lang-wiki.js":1,"sites\/all\/libraries\/prettify\/src\/lang-yaml.js":1,"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap@3.3.5\/dist\/js\/bootstrap.js":1,"sites\/all\/modules\/custom\/ckeditor_accordion\/accordion\/js\/ckeditor-accordion.js":1,"sites\/all\/modules\/contrib\/ckeditor_tabber\/semantic-tabs.js":1,"sites\/all\/modules\/custom\/hp_bu_ga\/js\/hp_bu_ga_admin.js":1,"sites\/all\/modules\/custom\/hp_partner_profile\/js\/hp_partner_profile.js":1,"https:\/\/www.google.com\/jsapi":1,"sites\/all\/modules\/custom\/hp_bu_ga\/js\/hp_bu_ga_event_tracking.js":1,"sites\/all\/modules\/custom\/hp_my_apps\/js\/hp_my_apps.js":1,"sites\/all\/modules\/custom\/hp_new_manage_apps\/js\/hp_new_manage_apps.js":1,"sites\/all\/modules\/custom\/hp_og_email_blast\/js\/hp_og_email_blast.js":1,"sites\/all\/modules\/custom\/hp_redesign\/js\/hp_redesign_ga.js":1,"sites\/all\/modules\/custom\/hp_search_redesign\/hp_search_redesign.js":1,"sites\/all\/modules\/contrib\/prettify\/prettify.loader.js":1,"sites\/all\/modules\/custom\/hp_redesign_bu\/js\/hp_leftnav.js":1,"sites\/all\/modules\/contrib\/search_autocomplete\/js\/jquery.autocomplete.js":1,"profiles\/apigee\/modules\/contrib\/google_analytics\/googleanalytics.js":1,"8":1,"profiles\/apigee\/modules\/contrib\/bootstrap_modal_forms\/js\/bootstrap_modal_forms.forms.js":1,"https:\/\/www8.hp.com\/ww\/en\/system\/include\/privacy_cookie.JS":1,"sites\/all\/modules\/custom\/hp_extras\/js\/clipboard-js\/clipboard.min.js":1,"sites\/all\/modules\/custom\/hp_extras\/js\/hp_extras.js":1,"sites\/all\/modules\/custom\/hp_github_access\/js\/hp_github_access.js":1,"sites\/all\/modules\/custom\/hp_migrate_hplip\/jquery.navgoco.min.js":1,"sites\/all\/modules\/custom\/hp_migrate_hplip\/toc.js":1,"sites\/all\/themes\/hp_responsive\/js\/hp_responsive.js":1,"sites\/all\/themes\/hp_responsive\/js\/back_button.js":1},"css":{"modules\/system\/system.base.css":1,"misc\/ui\/jquery.ui.core.css":1,"misc\/ui\/jquery.ui.theme.css":1,"misc\/ui\/jquery.ui.menu.css":1,"misc\/ui\/jquery.ui.autocomplete.css":1,"sites\/all\/modules\/custom\/ckeditor_accordion\/accordion\/css\/hp-ckeditor-accordion.css":1,"sites\/all\/modules\/contrib\/ckeditor_tabber\/ckeditor_tabber.css":1,"profiles\/apigee\/modules\/contrib\/date\/date_api\/date.css":1,"profiles\/apigee\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"sites\/all\/modules\/contrib\/filebrowser\/css\/filebrowser_style.css":1,"sites\/all\/modules\/custom\/hp_api_doc\/css\/hp_api_doc.css":1,"sites\/all\/modules\/custom\/hp_hackathon\/css\/hp_hackathon.css":1,"sites\/all\/modules\/custom\/hp_new_manage_apps\/css\/hp_new_manage_apps.css":1,"profiles\/apigee\/modules\/contrib\/logintoboggan\/logintoboggan.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/contrib\/wfm\/styles.css":1,"profiles\/apigee\/modules\/contrib\/views\/css\/views.css":1,"profiles\/apigee\/modules\/contrib\/ckeditor\/css\/ckeditor.css":1,"profiles\/apigee\/modules\/contrib\/media\/modules\/media_wysiwyg\/css\/media_wysiwyg.base.css":1,"profiles\/apigee\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/custom\/hp_extras\/css\/hp_extras.css":1,"sites\/all\/modules\/custom\/hp_github_access\/css\/hp_github_access.css":1,"sites\/all\/modules\/custom\/hp_my_apps\/css\/hp_my_apps.css":1,"sites\/all\/themes\/hp_responsive\/css\/hp_bu_responsive.css":1,"sites\/all\/modules\/custom\/hp_search_redesign\/hp_search_redesign.css":1,"profiles\/apigee\/modules\/custom\/devconnect\/smartdocs\/css\/smartdocs.css":1,"sites\/all\/modules\/contrib\/search_autocomplete\/css\/themes\/user-blue.css":1,"sites\/all\/modules\/contrib\/search_autocomplete\/css\/themes\/basic-green.css":1,"9":1,"sites\/all\/modules\/custom\/hp_openid_connect\/css\/hp_openid_connect.css":1,"sites\/all\/modules\/custom\/hp_migrate_hplip\/hp_migrate_hplip.css":1,"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap@3.3.5\/dist\/css\/bootstrap.css":1,"https:\/\/cdn.jsdelivr.net\/npm\/@unicorn-fail\/drupal-bootstrap-styles@0.0.2\/dist\/3.3.1\/7.x-3.x\/drupal-bootstrap.css":1,"sites\/all\/themes\/hp_responsive\/css\/hp_responsive.css":1,"sites\/all\/themes\/hp_responsive\/css\/hp_nav.css":1,"sites\/all\/themes\/hp_responsive\/css\/hp_jetadvantage.css":1,"sites\/all\/themes\/hp_responsive\/css\/hp_smartdocs.css":1,"sites\/all\/themes\/hp_responsive\/css\/hp_qa.css":1,"sites\/all\/themes\/hp_responsive\/css\/hp_responsive_table.css":1,"0":1,"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"sites\/all\/modules\/contrib\/prettify\/styles\/sunburst.css":1}},"hp_bu_ga":{"nodeTitle":"MobileScan SDK Docs","buTitle":"Mobile Scan SDK"},"urlIsAjaxTrusted":{"\/node\/1997":true},"hpNewManageApps":{"moduleImagePath":"\/sites\/all\/modules\/custom\/hp_new_manage_apps\/images\/"},"prettify":{"linenums":true,"match":".content","nocode":"no-code","custom":[],"markup":{"code":true,"pre":true,"precode":false}},"hp_redesign_bu":{"parentmenutitle":"Docs"},"search_autocomplete":{"form1":{"selector":"#search-form[action=\u0022\/search\/node\u0022] #edit-keys","minChars":"3","max_sug":"10","type":"internal","datas":"https:\/\/developers.hp.com\/search_autocomplete\/autocomplete\/1\/","fid":"1","theme":"basic-green","auto_submit":"1","auto_redirect":"1"},"form2":{"selector":"#search-form[action=\u0022\/search\/user\u0022] #edit-keys","minChars":"3","max_sug":"10","type":"internal","datas":"https:\/\/developers.hp.com\/search_autocomplete\/autocomplete\/2\/","fid":"2","theme":"user-blue","auto_submit":"1","auto_redirect":"1"},"form3":{"selector":"#edit-search-block-home-form--2","minChars":"2","max_sug":"10","type":"internal","datas":"https:\/\/developers.hp.com\/autocomplete_mylist","fid":"3","theme":"basic-green","auto_submit":"1","auto_redirect":"0"},"form4":{"selector":"#edit-keys","minChars":"2","max_sug":"10","type":"internal","datas":"https:\/\/developers.hp.com\/autocomplete_mylist","fid":"4","theme":"basic-green","auto_submit":"1","auto_redirect":"0"}},"ckeditor_tabber":{"elements":"dl.ckeditor-tabber"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"ogContext":{"groupType":"node","gid":"2015"},"bootstrap_modal_forms":{"hp_github_access_form":{"identifier":"hp_github_access_form","url":"github\/access","open_onload":false}},"bootstrap_modal_forms_current_path":"node\/1997","bootstrap":{"anchorsFix":1,"anchorsSmoothScrolling":1,"formHasError":1,"popoverEnabled":1,"popoverOptions":{"animation":1,"html":0,"placement":"right","selector":"","trigger":"click","triggerAutoclose":1,"title":"","content":"","delay":0,"container":"body"},"tooltipEnabled":1,"tooltipOptions":{"animation":1,"html":0,"placement":"top","selector":"","trigger":"hover focus","delay":0,"container":"body"}}});</script>
+</head>
+<body class="html not-front not-logged-in one-sidebar sidebar-first page-node page-node- page-node-1997 node-type-hp-documentation og-context og-context-node og-context-node-2015 navbar-is-fixed-top" >
+<header>
+    <div class="container">
+        <nav class="navbar navbar-fixed-top nav-down  hp-main-menu">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#hp-navbar-collapse-1" aria-expanded="true">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/" class="hp-logo navbar-brand">home</a>                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="navbar-collapse collapse" id="hp-navbar-collapse-1">
+                                          <ul class="menu nav navbar-nav"><li class="first leaf"><a href="/tools" class="hp-ga-main-menu">Tools</a></li>
+<li class="leaf"><a href="/community/blog" class="blog-menu hp-ga-main-menu">Blogs</a></li>
+<li class="expanded dropdown"><a href="/community" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Community <span class="caret"></span></a><ul class="dropdown-menu"><li class="first leaf"><a href="/community" class="hp-ga-main-menu">Community Home</a></li>
+<li class="leaf"><a href="/forum" class="hp-ga-main-menu">Forums</a></li>
+<li class="leaf"><a href="/community/news" class="news-menu hp-ga-main-menu">News &amp; Events</a></li>
+</ul></li>
+<li class="leaf"><a href="/user/login" class="hp-ga-main-menu">Login</a></li>
+<li class="leaf"><a href="/user/login" class="hp-ga-main-menu">Register</a></li>
+<li class="leaf"><a href="/learn-more" class="hp-ga-main-menu">About</a></li>
+<li class="expanded dropdown og-menu-link"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Docs<span class="caret"></span></a><ul class="dropdown-menu"><li class="first leaf active-trail active active"><a href="/mobile-scan-sdk/doc/mobilescan-sdk-docs" class="active-trail active">Documentation for the SDK</a></li>
+<li class="last leaf"><a href="/mobile-scan-sdk/supported-devices">Supported devices</a></li>
+</ul></li><li class="expanded dropdown og-menu-link"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Support<span class="caret"></span></a><ul class="dropdown-menu"><li class="first last leaf"><a href="/mobile-scan-sdk/support-mobile-scan-sdk">Support for Mobile Scan SDK</a></li>
+</ul></li><li class="leaf search-site" id="search-link"><a href="#" class="icon glyphicon glyphicon-search" aria-hidden="true"></a> </li><li class="leaf search-site" ><form class="form-search content-search" action="/node/1997" method="post" id="search-block-form--2" accept-charset="UTF-8"><div><div>
+      <h2 class="element-invisible">Search form</h2>
+    <div class="input-group"><input title="Enter the terms you wish to search for." placeholder="Search HP Developer Portal" class="form-control form-text" type="text" id="edit-search-block-form--4" name="search_block_form" value="" size="30" maxlength="128" /><span class="input-group-btn"><button type="submit" class="btn btn-primary"><span class="icon glyphicon glyphicon-search" aria-hidden="true"></span>
+</button></span></div><div class="form-actions form-wrapper form-group" id="edit-actions--2"><button class="element-invisible btn btn-primary form-submit" type="submit" id="edit-submit--3" name="op" value="Search">Search</button>
+</div><input type="hidden" name="form_build_id" value="form-bUZpCyDFM1e4JywMdoOclF_Maj14IJm-EJe4wascFx4" />
+<input type="hidden" name="form_id" value="search_block_form" />
+</div>
+</div></form></li></ul>                                                                  <div class="region region-navigation" >
+        <section id="block-search-form" class="block block-search clearfix">
+
+      
+  <form class="form-search content-search" action="/node/1997" method="post" id="search-block-form" accept-charset="UTF-8"><div><div>
+      <h2 class="element-invisible">Search form</h2>
+    <div class="input-group"><input title="Enter the terms you wish to search for." placeholder="Search" class="form-control form-text" type="text" id="edit-search-block-form--2" name="search_block_form" value="" size="15" maxlength="128" /><span class="input-group-btn"><button type="submit" class="btn btn-primary"><span class="icon glyphicon glyphicon-search" aria-hidden="true"></span>
+</button></span></div><div class="form-actions form-wrapper form-group" id="edit-actions"><button class="element-invisible btn btn-primary form-submit" type="submit" id="edit-submit--2" name="op" value="Search">Search</button>
+</div><input type="hidden" name="form_build_id" value="form-TPZSIa49Sp7x8RRBMZ9kVRur2qlREiMnAIAb5gobHno" />
+<input type="hidden" name="form_id" value="search_block_form" />
+</div>
+</div></form>
+</section>
+    </div>
+                                    </div>
+                <!-- /.navbar-collapse -->
+            </div><!-- /.container -->      
+        </nav>
+                  <nav id="hp-navbar-collapse-og" class="navbar navbar-fixed-top nav-down">
+              <div class="container">
+                  <div class="bu-title">
+                      <a href="/mobile-scan-sdk" class="title">Mobile Scan SDK</a>                  </div>
+                  <ul class="menu nav navbar-nav"><li class="first leaf active-trail new-class active active"><a href="/mobile-scan-sdk/doc/mobilescan-sdk-docs" class="active-trail active">Docs</a></li>
+<li class="first last leaf new-class"><a href="/mobile-scan-sdk/support-mobile-scan-sdk">Support</a></li>
+</ul>                                </div>
+          </nav>
+            </div>
+</header>
+
+
+
+<div class="master-container">
+    <!-- Display the top half of the page with the hero image -->    
+     
+    <div class="page-content">
+        <div class="main-container container clearfix">
+            <header role="banner" id="page-header">
+                    <div class="region region-header" >
+        <section id="block-hp-redesign-bu-hp-redesign-bu-page-link" class="block block-hp-redesign-bu clearfix">
+
+      
+  <div class="row"><div id="leftnav-butitle" class="col-sm-2" style="margin-bottom:-5px;"><span class="glyphicon glyphicon-menu-right"></span><a href="/mobile-scan-sdk" class="title">Mobile Scan SDK</a></div></div>
+</section>
+    </div>
+            </header>
+            <div class="row">
+                                  <aside class="col-sm-3" role="complementary">
+                          <div class="region region-sidebar-first well" >
+        <section id="block-hp-redesign-bu-hp-redesign-bu-block" class="block block-hp-redesign-bu clearfix">
+
+      
+  <div class="document-class"><ul class="leftnav-class"><li class=" no-truncatemenu menu-nonseparator doc-dropdown   active-trail active"><a href="/mobile-scan-sdk/doc/mobilescan-sdk-docs" class=" active-trail active" data-toggle="" target="">Documentation for the SDK</a></li><li class=" no-truncatemenu menu-nonseparator doc-dropdown  "><a href="/mobile-scan-sdk/supported-devices" class="" data-toggle="" target="">Supported devices</a></li></ul></div><div class="document-class"><ul class="leftnav-class"></ul></div>
+</section>
+    </div>
+                  </aside>
+                
+                <section  class="col-sm-9">
+                    
+                    <h1 class="japptitle">MobileScan SDK Docs</h1>
+                    
+
+                    
+                    
+                    
+                        <div class="region region-content" >
+        <section id="block-system-main" class="block block-system clearfix">
+
+      
+  <article id="node-1997" class="node node-hp-documentation clearfix" about="/mobile-scan-sdk/doc/mobilescan-sdk-docs" typeof="sioc:Item foaf:Document">
+    <header>
+            <span property="dc:title" content="MobileScan SDK Docs" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="0" datatype="xsd:integer" class="rdf-meta element-hidden"></span>      </header>
+    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><style type="text/css">#MobileScanSDK_view {
+position: fixed;
+display: block;
+width: 100%;
+height: 90%;
+height: calc(100% - 90px);
+top: 150px;
+bottom: 0;
+right: 0;
+left: 0;
+border: none;
+padding:  0;
+background-color: white;
+z-index: 128;
+}
+
+body {
+background-color: #0096D6;
+overflow: hidden;
+}
+</style>
+<p><iframe id="MobileScanSDK_view" scrolling="auto" src="https://d26qaajmp4969n.cloudfront.net/Documentation/index.html"></iframe></p>
+<script>
+function init() {
+console.log("MobileScanSDK_ init...");
+document.querySelector("#MobileScanSDK_view").setAttribute("scrolling", "auto");
+document.getElementById("MobileScanSDK_view").src = document.getElementById("MobileScanSDK_view").src;
+}
+
+window.addEventListener('load', init);
+</script></div></div></div>    </article>
+
+</section>
+    </div>
+                </section>
+
+                            </div> 
+        </div> 
+    </div>
+</div>     
+
+<footer class="hp-footer">
+     
+      <div class="main-container container clearfix">
+              <div class="region region-footer" >
+        <section id="block-block-20" class="block block-block clearfix">
+
+      
+   <div class="row">
+            <div class="col-md-12">
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h4>About us</h4>
+                <p><a href="/learn-more">HP Developer Program</a><br /></p>
+            </div>
+            <div class="col-md-3">
+                <h4>Community</h4>
+                <p>Check out HP's <a href="/community">developer community</a> to ask questions.
+                    Swap code and let everyone know about your latest software masterpiece.</p>
+                <br />
+            </div>
+            <div class="col-md-3">
+                <h4>Legal</h4>
+                <p><a href="/terms">Terms of use</a><br />
+                <a href="http://www8.hp.com/us/en/privacy/privacy.html" target="_blank">Privacy</a><br />
+                <a href="https://hp.com">HP Inc.</a></p>
+                <br />                    
+            </div>
+            <div class="col-md-3">
+                <h4>Contact</h4>
+                <p><a href="/feedback-form">Contact HP Developer Program</a><br /><br /></p>
+                <h4>Stay connected</h4>
+                <ul class="ul_media_links">
+                    <li>                        
+                        <a target="_blank" class="icn_fcb" data-label="HP on Facebook" href="http://www.facebook.com/HP" aria-label="HP on Facebook"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" class="icn_sm_lkn" data-label="LinkedIn HP" href="https://www.linkedin.com/showcase/6652412/" aria-label="LinkedIn HP"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" class="icn_twt" data-label="HP on Twitter" href="https://twitter.com/hpdevelopers" aria-label="HP on Twitter"></a>
+                    </li>
+                    <li>
+                        <a target="_blank" class="icn_ytb" data-label="HP YouTube" href="http://www.youtube.com/hp" aria-label="HP YouTube"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr />
+            </div>
+        </div>
+</section>
+<section id="block-block-21" class="block block-block clearfix">
+
+      
+   <div class="row">
+            <div class="col-md-12"><h4><a class="hp-ga-footer-all-categories-link" href="/technologies">API and SDK Categories</a></h4>
+            </div>
+        </div>
+        <div class="row footer-category-links">
+            <div class="col-md-3">
+                <a class="hp-ga-footer-category-link" href="/technologies#commercial-and-enterprise-printing">Commercial and Enterprise Printing</a><br />
+                <a class="hp-ga-footer-category-link" href="/technologies#content-services">Content Services</a>
+            </div>
+            <div class="col-md-3">
+                <a class="hp-ga-footer-category-link" href="/technologies#security-it-and-customer-support">Security, IT and Customer Support</a><br />
+                <a class="hp-ga-footer-category-link" href="/technologies#consumer-and-mobile-printing">Consumer and Mobile Printing</a>                                        
+            </div>
+            <div class="col-md-3">
+                <a class="hp-ga-footer-category-link" href="/technologies#immersive-computing-and-hp-labs">Immersive Computing and HP Labs</a>                    
+            </div>
+            <div class="col-md-3">
+                <a class="hp-ga-footer-category-link" href="/technologies#3d-printing">3D Printing</a>
+            </div>
+        </div>
+        <div class="row">
+            <br />                                    
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr />
+            </div>
+        </div>
+</section>
+<section id="block-hp-redesign-hp-footer-product-list" class="block block-hp-redesign clearfix">
+
+      
+  <div class="row">
+            <div class="col-md-12"><h4><a class="hp-ga-footer-all-products-link" href="/technologies">Get started with our APIs and SDKs</a></h4>
+            </div>
+        </div>
+        <div class="row"><div class="col-md-3"><ul class="footer-technologies-links"><li><a href="https://developers.hp.com/jetadvantage-link-android-mobile">JetAdvantage Link for Android Mobile</a></li><li><a href="https://developers.hp.com/jetadvantage-link-web">JetAdvantage Link for Web</a></li><li><a href="https://developers.hp.com/jetadvantage-link-device">JetAdvantage Link for Device</a></li><li><a href="/hp-daas-proactive-management">HP TechPulse</a></li><li><a href="/oxpd-net-java-public">OXPd .NET/Java</a></li><li><a href="/oxpd-javascript-public">OXPd JavaScript</a></li><li><a href="/printos/printos">PrintOS</a></li></ul></div><div class="col-md-3"><ul class="footer-technologies-links"><li><a href="https://developers.hp.com/hp-workstations-data-science">Z Workstations for Data Science</a></li><li><a href="/sprout">Immersive</a></li><li><a href="/css">HP Product Warranty</a></li><li><a href="/smartstream-sdks">SmartStream</a></li><li><a href="/3d-printing">3D Printing</a></li><li><a href="/lfp-enroll">Large Format Printing</a></li><li><a href="https://developers.hp.com/retail-sdk-enrollment">Retail Solutions</a></li></ul></div><div class="col-md-3"><ul class="footer-technologies-links"><li><a href="/pixel-intelligence">Pixel Intelligence</a></li><li><a href="/mobile-scan-sdk">Mobile Scan</a></li><li><a href="https://developers.hp.com/scanjet-twain-sdk/request">ScanJet TWAIN</a></li><li><a href="/hp-linux-imaging-and-printing">HP Linux Imaging &amp; Printing</a></li><li><a href="/link-creation-studio">Link Technology</a></li><li><a href="/mobile-print">Mobile Print</a></li><li><a href="/specialty-printing-systems">Specialty Printing Systems</a></li></ul></div><div class="col-md-3"><ul class="footer-technologies-links"><li><a href="/print-developers">Print Fundamentals</a></li><li><a href="/hp-labs">HP Labs</a></li><li><a href="https://developers.hp.com/jetadvantage-link-web">JetAdvantage Link for Web</a></li><li><a href="https://developers.hp.com/jetadvantage-link-android-mobile">JetAdvantage Link for Android Mobile</a></li></ul></div></div>
+        <div class="row">
+            <div class="col-md-12 hp-footer-divider">
+                <hr />
+            </div>
+        </div>
+</section>
+    </div>
+      </div> <!-- main-container inside hp-footer -->
+        </footer>
+
+
+    <div class="region region-page-bottom" >
+        <div id="hp_github_access_form" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="hp_github_access_formLabel" aria-hidden="true">
+  <div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 id="hp_github_access_formLabel" class="modal-title">Github Access</h4>
+  </div>
+  <div class="modal-body">
+    <form action="/github/access?destination=node/1997" method="post" id="hp-github-access-form" accept-charset="UTF-8"><div><div class="form-item form-item-hp-github-access-userid form-type-textfield form-group"> <label class="control-label" for="edit-hp-github-access-userid">Github UserId <span class="form-required" title="This field is required.">*</span></label>
+<input id="github_userId" class="form-control form-text required" type="text" name="hp_github_access_userid" size="60" maxlength="128" /></div><input id="github_access_data" type="hidden" name="github_access_data" />
+<input id="github_user_loggedIn" type="hidden" name="loggedIn" value="0" />
+<input id="github_repo" type="hidden" name="repo" value="" />
+<input id="github_owner" type="hidden" name="owner" value="" />
+<input id="github_url" type="hidden" name="github_url" value="" />
+<button id="github_access_submit" type="submit" name="op" value="Submit" class="btn btn-primary form-submit">Submit</button>
+<input type="hidden" name="form_build_id" value="form-pcZ6nMX0UaQtfkTWzyJyFf9xnsrNRercI4ALxG3GPNQ" />
+<input type="hidden" name="form_id" value="hp_github_access_form" />
+</div></form>  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" data-dismiss="modal">Close</button>
+  </div>
+  </div></div>
+</div>    </div>
+<script src="https://developers.hp.com/sites/all/modules/custom/hp_jetadvantage_contacts/inputmask.js?q3th5u"></script>
+<script src="https://developers.hp.com/profiles/apigee/themes/bootstrap/js/bootstrap.js?q3th5u"></script>
+<script>
+jQuery(document).ready(function () {
+$(".main-container").find("aside").closest(".row").addClass("hp-ogmenu-dropdown-block");
+});</script>
+<script>
+jQuery(document).ready(function () {
+$(".main-container").find("aside").closest(".row").addClass("hp-ogmenu-dropdown-block");
+});</script>
+<script>
+jQuery(document).ready(function () {
+$(".main-container").find("aside").closest(".row").addClass("hp-ogmenu-dropdown-block");
+});</script>
+<script>
+jQuery(document).ready(function () {
+$(".main-container").find("aside").closest(".row").addClass("hp-ogmenu-dropdown-block");
+});</script>
+<script>
+jQuery(document).ready(function () {
+$(".main-container").find("aside").closest(".row").addClass("hp-ogmenu-dropdown-block");
+});</script>
+<script>
+jQuery(document).ready(function () {
+  // For the legal notices popup
+    jQuery("#legal-notices-trigger").click(function() {
+        $("#legal-notices").modal("show");
+    });
+    $("li.active").parents("li").toggleClass("active");    
+$("#toc").toc({ minimumHeaders: 0, listType: "ul", showSpeed: 0, headers: ".node-hp-documentation h2, .node-hp-documentation h3,.node-hp-documentation h4" });
+/* this offset helps account for the space taken up by the floating toolbar. */
+$("#toc").on("click", "a", function() {
+  var target = $(this.getAttribute("href"))
+    , scroll_target = target.offset().top
+  $(window).scrollTop(scroll_target - 140);
+  return false;
+});
+ $("#mysidebar").navgoco({
+                caretHtml: "",
+                accordion: true,
+                openClass: "active", 
+                save: false, 
+                cookie: {
+                    name: "navgoco",
+                    expires: false,
+                    path: "/"
+                },
+                slide: {
+                    duration: 400,
+                    easing: "swing"
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco("toggle", false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco("toggle", true);
+            });
+  });</script>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"e025d0e2ec","applicationID":"17669092","transactionName":"MlZSbUVRD0FWVRVbXgsccVpDWQ5cGFgOVlQ6Q1FeUm8XW1JB","queueTime":0,"applicationTime":846,"atts":"HhFRGw1LHE8=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>
