@@ -17,6 +17,7 @@ const {
 } = require("../doc");
 
 function embed(path, print, textToDoc, options) {
+function embed(path, print, textToDoc /*, options */) {
   const node = path.getValue();
   const parent = path.getParentNode();
   const parentParent = path.getParentNode(1);
@@ -195,6 +196,7 @@ function embed(path, print, textToDoc, options) {
   function printMarkdown(text) {
     const doc = textToDoc(text, { parser: "markdown", __inJsTemplate: true });
     return stripTrailingHardline(escapeTemplateCharacters(doc, true));
+    return stripTrailingHardline(escapeBackticks(doc));
   }
 }
 
@@ -208,6 +210,7 @@ function uncook(cookedValue) {
 }
 
 function escapeTemplateCharacters(doc, raw) {
+function escapeBackticks(doc) {
   return mapDoc(doc, currentDoc => {
     if (!currentDoc.parts) {
       return currentDoc;

@@ -45,6 +45,7 @@ describe(`show detailed usage with plugin options (manual resolution)`, () => {
 });
 
 describe("throw error with --help not-found", () => {
+describe("show warning with --help not-found", () => {
   runPrettier("cli", ["--help", "not-found"]).test({
     status: 1
   });

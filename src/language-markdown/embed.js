@@ -89,6 +89,16 @@ function embed(path, print, textToDoc, options) {
               .map((v, i) => (i % 2 === 0 ? v : literalline))
           )
         : currentDoc
+    return mapDoc(
+      doc,
+      currentDoc =>
+        typeof currentDoc === "string" && currentDoc.includes("\n")
+          ? concat(
+              currentDoc
+                .split(/(\n)/g)
+                .map((v, i) => (i % 2 === 0 ? v : literalline))
+            )
+          : currentDoc
     );
   }
 }

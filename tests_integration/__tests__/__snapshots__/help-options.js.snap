@@ -248,6 +248,7 @@ exports[`show detailed usage with --help list-different (stdout) 1`] = `
 "-l, --list-different
 
   Print the names of files that are different from Prettier's formatting (see also --check).
+  Print the names of files that are different from Prettier's formatting.
 "
 `;
 
@@ -333,6 +334,7 @@ exports[`show detailed usage with --help parser (stderr) 1`] = `""`;
 
 exports[`show detailed usage with --help parser (stdout) 1`] = `
 "--parser <flow|babel|babel-flow|typescript|css|less|scss|json|json5|json-stringify|graphql|markdown|mdx|vue|yaml|html|angular|lwc>
+"--parser <flow|babylon|typescript|css|less|scss|json|json5|json-stringify|graphql|markdown|vue>
 
   Which parser to use.
 
@@ -341,6 +343,7 @@ Valid options:
   flow             Flow
   babel            JavaScript
   babel-flow       Flow
+  babylon          JavaScript
   typescript       TypeScript
   css              CSS
   less             Less
@@ -356,6 +359,7 @@ Valid options:
   html             HTML
   angular          Angular
   lwc              Lightning Web Components
+  vue              Vue
 "
 `;
 
@@ -408,6 +412,7 @@ exports[`show detailed usage with --help prose-wrap (stdout) 1`] = `
 "--prose-wrap <always|never|preserve>
 
   How to wrap prose.
+  How to wrap prose. (markdown)
 
 Valid options:
 

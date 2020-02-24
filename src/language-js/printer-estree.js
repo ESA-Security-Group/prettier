@@ -22,12 +22,18 @@ const {
   getIndentSize,
   matchAncestorTypes,
   getPreferredQuote
+  skipWhitespace,
+  hasNodeIgnoreComment,
+  getPenultimate,
+  startsWithNoLookaheadToken,
+  getIndentSize
 } = require("../common/util");
 const {
   isNextLineEmpty,
   isNextLineEmptyAfterIndex,
   getNextNonSpaceNonCommentCharacterIndex
 } = require("../common/util-shared");
+const isIdentifierName = require("esutils").keyword.isIdentifierNameES6;
 const embed = require("./embed");
 const clean = require("./clean");
 const insertPragma = require("./pragma").insertPragma;
@@ -170,6 +176,9 @@ function genericPrint(path, options, printPath, args) {
       options.locStart(parentExportDecl, { ignoreDecorators: true }) >
         options.locStart(node.decorators[0])
     )
+    // If the parent node is an export declaration, it will be
+    // responsible for printing node.decorators.
+    !getParentExportDeclaration(path)
   ) {
     const shouldBreak =
       node.type === "ClassExpression" ||
@@ -245,6 +254,11 @@ function genericPrint(path, options, printPath, args) {
 }
 
 function printDecorators(path, options, print) {
+function hasPrettierIgnore(path) {
+  return hasIgnoreComment(path) || hasJsxIgnoreComment(path);
+}
+
+function hasJsxIgnoreComment(path) {
   const node = path.getValue();
   return group(
     concat([
@@ -1350,6 +1364,20 @@ function printPathNoParens(path, options, print, args) {
       if (n.inexact) {
         props.push(concat(separatorParts.concat(group("..."))));
       }
+      const props = propsAndLoc.sort((a, b) => a.loc - b.loc).map(prop => {
+        const result = concat(separatorParts.concat(group(prop.printed)));
+        separatorParts = [separator, line];
+        if (
+          prop.node.type === "TSPropertySignature" &&
+          hasNodeIgnoreComment(prop.node)
+        ) {
+          separatorParts.shift();
+        }
+        if (isNextLineEmpty(options.originalText, prop.node, options)) {
+          separatorParts.push(hardline);
+        }
+        return result;
+      });
 
       const lastElem = getLast(n[propertiesField]);
 
@@ -1359,6 +1387,8 @@ function printPathNoParens(path, options, print, args) {
           lastElem.type === "RestElement" ||
           hasNodeIgnoreComment(lastElem) ||
           n.inexact)
+          lastElem.type === "ExperimentalRestProperty" ||
+          hasNodeIgnoreComment(lastElem))
       );
 
       let content;
@@ -2379,6 +2409,117 @@ function printPathNoParens(path, options, print, args) {
         const printed = printJestEachTemplateLiteral(n, expressions, options);
         if (printed) {
           return printed;
+      /**
+       * describe.each`table`(name, fn)
+       * describe.only.each`table`(name, fn)
+       * describe.skip.each`table`(name, fn)
+       * test.each`table`(name, fn)
+       * test.only.each`table`(name, fn)
+       * test.skip.each`table`(name, fn)
+       *
+       * Ref: https://github.com/facebook/jest/pull/6102
+       */
+      const jestEachTriggerRegex = /^[xf]?(describe|it|test)$/;
+      if (
+        parentNode.type === "TaggedTemplateExpression" &&
+        parentNode.quasi === n &&
+        parentNode.tag.type === "MemberExpression" &&
+        parentNode.tag.property.type === "Identifier" &&
+        parentNode.tag.property.name === "each" &&
+        ((parentNode.tag.object.type === "Identifier" &&
+          jestEachTriggerRegex.test(parentNode.tag.object.name)) ||
+          (parentNode.tag.object.type === "MemberExpression" &&
+            parentNode.tag.object.property.type === "Identifier" &&
+            (parentNode.tag.object.property.name === "only" ||
+              parentNode.tag.object.property.name === "skip") &&
+            parentNode.tag.object.object.type === "Identifier" &&
+            jestEachTriggerRegex.test(parentNode.tag.object.object.name)))
+      ) {
+        /**
+         * a    | b    | expected
+         * ${1} | ${1} | ${2}
+         * ${1} | ${2} | ${3}
+         * ${2} | ${1} | ${3}
+         */
+        const headerNames = n.quasis[0].value.raw.trim().split(/\s*\|\s*/);
+        if (
+          headerNames.length > 1 ||
+          headerNames.some(headerName => headerName.length !== 0)
+        ) {
+          const stringifiedExpressions = expressions.map(
+            doc =>
+              "${" +
+              printDocToString(
+                doc,
+                Object.assign({}, options, { printWidth: Infinity })
+              ).formatted +
+              "}"
+          );
+
+          const tableBody = [{ hasLineBreak: false, cells: [] }];
+          for (let i = 1; i < n.quasis.length; i++) {
+            const row = tableBody[tableBody.length - 1];
+            const correspondingExpression = stringifiedExpressions[i - 1];
+
+            row.cells.push(correspondingExpression);
+            if (correspondingExpression.indexOf("\n") !== -1) {
+              row.hasLineBreak = true;
+            }
+
+            if (n.quasis[i].value.raw.indexOf("\n") !== -1) {
+              tableBody.push({ hasLineBreak: false, cells: [] });
+            }
+          }
+
+          const maxColumnCount = tableBody.reduce(
+            (maxColumnCount, row) => Math.max(maxColumnCount, row.cells.length),
+            headerNames.length
+          );
+
+          const maxColumnWidths = Array.from(
+            new Array(maxColumnCount),
+            () => 0
+          );
+          const table = [{ cells: headerNames }].concat(
+            tableBody.filter(row => row.cells.length !== 0)
+          );
+          table.filter(row => !row.hasLineBreak).forEach(row => {
+            row.cells.forEach((cell, index) => {
+              maxColumnWidths[index] = Math.max(
+                maxColumnWidths[index],
+                getStringWidth(cell)
+              );
+            });
+          });
+
+          parts.push(
+            "`",
+            indent(
+              concat([
+                hardline,
+                join(
+                  hardline,
+                  table.map(row =>
+                    join(
+                      " | ",
+                      row.cells.map(
+                        (cell, index) =>
+                          row.hasLineBreak
+                            ? cell
+                            : cell +
+                              " ".repeat(
+                                maxColumnWidths[index] - getStringWidth(cell)
+                              )
+                      )
+                    )
+                  )
+                )
+              ])
+            ),
+            hardline,
+            "`"
+          );
+          return concat(parts);
         }
       }
 
@@ -2417,6 +2558,10 @@ function printPathNoParens(path, options, print, args) {
           const tabWidth = options.tabWidth;
           const quasi = childPath.getValue();
           const indentSize = getIndentSize(quasi.value.raw, tabWidth);
+          const indentSize = getIndentSize(
+            childPath.getValue().value.raw,
+            tabWidth
+          );
 
           let printed = expressions[i];
 
@@ -4147,6 +4292,7 @@ function printFunctionParams(path, print, options, expandArg, printTypeParams) {
         removeLines(typeParams),
         "(",
         concat(printed.map(removeLines)),
+        join(", ", printed.map(removeLines)),
         ")"
       ])
     );
@@ -5636,6 +5782,105 @@ function printRegex(node) {
   return `/${node.pattern}/${flags}`;
 }
 
+function isLastStatement(path) {
+  const parent = path.getParentNode();
+  if (!parent) {
+    return true;
+  }
+  const node = path.getValue();
+  const body = (parent.body || parent.consequent).filter(
+    stmt => stmt.type !== "EmptyStatement"
+  );
+  return body && body[body.length - 1] === node;
+}
+
+function hasLeadingComment(node) {
+  return node.comments && node.comments.some(comment => comment.leading);
+}
+
+function hasTrailingComment(node) {
+  return node.comments && node.comments.some(comment => comment.trailing);
+}
+
+function hasLeadingOwnLineComment(text, node, options) {
+  if (isJSXNode(node)) {
+    return hasNodeIgnoreComment(node);
+  }
+
+  const res =
+    node.comments &&
+    node.comments.some(
+      comment => comment.leading && hasNewline(text, options.locEnd(comment))
+    );
+  return res;
+}
+
+function hasNakedLeftSide(node) {
+  return (
+    node.type === "AssignmentExpression" ||
+    node.type === "BinaryExpression" ||
+    node.type === "LogicalExpression" ||
+    node.type === "ConditionalExpression" ||
+    node.type === "CallExpression" ||
+    node.type === "OptionalCallExpression" ||
+    node.type === "MemberExpression" ||
+    node.type === "OptionalMemberExpression" ||
+    node.type === "SequenceExpression" ||
+    node.type === "TaggedTemplateExpression" ||
+    (node.type === "BindExpression" && !node.object) ||
+    (node.type === "UpdateExpression" && !node.prefix)
+  );
+}
+
+function isFlowAnnotationComment(text, typeAnnotation, options) {
+  const start = options.locStart(typeAnnotation);
+  const end = skipWhitespace(text, options.locEnd(typeAnnotation));
+  return text.substr(start, 2) === "/*" && text.substr(end, 2) === "*/";
+}
+
+function getLeftSide(node) {
+  if (node.expressions) {
+    return node.expressions[0];
+  }
+  return (
+    node.left ||
+    node.test ||
+    node.callee ||
+    node.object ||
+    node.tag ||
+    node.argument ||
+    node.expression
+  );
+}
+
+function getLeftSidePathName(path, node) {
+  if (node.expressions) {
+    return ["expressions", 0];
+  }
+  if (node.left) {
+    return ["left"];
+  }
+  if (node.test) {
+    return ["test"];
+  }
+  if (node.callee) {
+    return ["callee"];
+  }
+  if (node.object) {
+    return ["object"];
+  }
+  if (node.tag) {
+    return ["tag"];
+  }
+  if (node.argument) {
+    return ["argument"];
+  }
+  if (node.expression) {
+    return ["expression"];
+  }
+  throw new Error("Unexpected node has no left side", node);
+}
+
 function exprNeedsASIProtection(path, options) {
   const node = path.getValue();
 
@@ -5745,6 +5990,19 @@ function shouldHugArguments(fun) {
   );
 }
 
+function templateLiteralHasNewLines(template) {
+  return template.quasis.some(quasi => quasi.value.raw.includes("\n"));
+}
+
+function isTemplateOnItsOwnLine(n, text, options) {
+  return (
+    ((n.type === "TemplateLiteral" && templateLiteralHasNewLines(n)) ||
+      (n.type === "TaggedTemplateExpression" &&
+        templateLiteralHasNewLines(n.quasi))) &&
+    !hasNewline(text, options.locStart(n), { backwards: true })
+  );
+}
+
 function printArrayItems(path, options, printPath, print) {
   const printedElements = [];
   let separatorParts = [];
@@ -5766,6 +6024,149 @@ function printArrayItems(path, options, printPath, print) {
 }
 
 function willPrintOwnComments(path /*, options */) {
+function hasDanglingComments(node) {
+  return (
+    node.comments &&
+    node.comments.some(comment => !comment.leading && !comment.trailing)
+  );
+}
+
+function needsHardlineAfterDanglingComment(node) {
+  if (!node.comments) {
+    return false;
+  }
+  const lastDanglingComment = getLast(
+    node.comments.filter(comment => !comment.leading && !comment.trailing)
+  );
+  return (
+    lastDanglingComment && !handleComments.isBlockComment(lastDanglingComment)
+  );
+}
+
+function isLiteral(node) {
+  return (
+    node.type === "BooleanLiteral" ||
+    node.type === "DirectiveLiteral" ||
+    node.type === "Literal" ||
+    node.type === "NullLiteral" ||
+    node.type === "NumericLiteral" ||
+    node.type === "RegExpLiteral" ||
+    node.type === "StringLiteral" ||
+    node.type === "TemplateLiteral" ||
+    node.type === "TSTypeLiteral" ||
+    node.type === "JSXText"
+  );
+}
+
+function isNumericLiteral(node) {
+  return (
+    node.type === "NumericLiteral" ||
+    (node.type === "Literal" && typeof node.value === "number")
+  );
+}
+
+function isStringLiteral(node) {
+  return (
+    node.type === "StringLiteral" ||
+    (node.type === "Literal" && typeof node.value === "string")
+  );
+}
+
+function isObjectType(n) {
+  return n.type === "ObjectTypeAnnotation" || n.type === "TSTypeLiteral";
+}
+
+const unitTestRe = /^(skip|[fx]?(it|describe|test))$/;
+
+// eg; `describe("some string", (done) => {})`
+function isTestCall(n, parent) {
+  if (n.type !== "CallExpression") {
+    return false;
+  }
+  if (n.arguments.length === 1) {
+    if (isAngularTestWrapper(n) && parent && isTestCall(parent)) {
+      return isFunctionOrArrowExpression(n.arguments[0].type);
+    }
+
+    if (isUnitTestSetUp(n)) {
+      return (
+        isFunctionOrArrowExpression(n.arguments[0].type) ||
+        isAngularTestWrapper(n.arguments[0])
+      );
+    }
+  } else if (n.arguments.length === 2) {
+    if (
+      ((n.callee.type === "Identifier" && unitTestRe.test(n.callee.name)) ||
+        isSkipOrOnlyBlock(n)) &&
+      (isTemplateLiteral(n.arguments[0]) || isStringLiteral(n.arguments[0]))
+    ) {
+      return (
+        (isFunctionOrArrowExpression(n.arguments[1].type) &&
+          n.arguments[1].params.length <= 1) ||
+        isAngularTestWrapper(n.arguments[1])
+      );
+    }
+  }
+  return false;
+}
+
+function isSkipOrOnlyBlock(node) {
+  return (
+    (node.callee.type === "MemberExpression" ||
+      node.callee.type === "OptionalMemberExpression") &&
+    node.callee.object.type === "Identifier" &&
+    node.callee.property.type === "Identifier" &&
+    unitTestRe.test(node.callee.object.name) &&
+    (node.callee.property.name === "only" ||
+      node.callee.property.name === "skip")
+  );
+}
+
+function isTemplateLiteral(node) {
+  return node.type === "TemplateLiteral";
+}
+
+// `inject` is used in AngularJS 1.x, `async` in Angular 2+
+// example: https://docs.angularjs.org/guide/unit-testing#using-beforeall-
+function isAngularTestWrapper(node) {
+  return (
+    (node.type === "CallExpression" ||
+      node.type === "OptionalCallExpression") &&
+    node.callee.type === "Identifier" &&
+    (node.callee.name === "async" || node.callee.name === "inject")
+  );
+}
+
+function isFunctionOrArrowExpression(type) {
+  return type === "FunctionExpression" || type === "ArrowFunctionExpression";
+}
+
+function isUnitTestSetUp(n) {
+  const unitTestSetUpRe = /^(before|after)(Each|All)$/;
+  return (
+    n.callee.type === "Identifier" &&
+    unitTestSetUpRe.test(n.callee.name) &&
+    n.arguments.length === 1
+  );
+}
+
+function isTheOnlyJSXElementInMarkdown(options, path) {
+  if (options.parentParser !== "markdown") {
+    return false;
+  }
+
+  const node = path.getNode();
+
+  if (!node.expression || !isJSXNode(node.expression)) {
+    return false;
+  }
+
+  const parent = path.getParentNode();
+
+  return parent.type === "Program" && parent.body.length == 1;
+}
+
+function willPrintOwnComments(path) {
   const node = path.getValue();
   const parent = path.getParentNode();
 

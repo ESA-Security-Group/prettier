@@ -11,6 +11,14 @@ const requiresPrettierInternals = [
 const semver = require("semver");
 const isOldNode = semver.parse(process.version).major <= 4;
 
+const requiresPrettierInternals = [
+  "tests_integration/__tests__/util-shared.js",
+  "tests_integration/__tests__/help-options.js"
+];
+
+const semver = require("semver");
+const isOldNode = semver.parse(process.version).major <= 4;
+
 module.exports = {
   setupFiles: ["<rootDir>/tests_config/run_spec.js"],
   snapshotSerializers: [
@@ -22,6 +30,7 @@ module.exports = {
     isOldNode ? requiresPrettierInternals : []
   ),
   collectCoverage: ENABLE_CODE_COVERAGE,
+  collectCoverage: ENABLE_COVERAGE,
   collectCoverageFrom: ["src/**/*.js", "index.js", "!<rootDir>/node_modules/"],
   coveragePathIgnorePatterns: [
     "<rootDir>/standalone.js",
@@ -38,6 +47,7 @@ module.exports = {
 
     "prettier/local": "<rootDir>/tests_config/require_prettier.js",
     "prettier/standalone": "<rootDir>/tests_config/require_standalone.js"
+    "prettier/local": "<rootDir>/tests_config/require_prettier.js"
   },
   testEnvironment: "node",
   transform: {},

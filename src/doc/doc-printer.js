@@ -6,6 +6,8 @@ const { concat, fill, cursor } = require("./doc-builders");
 
 /** @type {{[groupId: PropertyKey]: MODE}} */
 let groupModeMap;
+const util = require("../common/util");
+const { concat, fill, cursor } = require("./doc-builders");
 
 const MODE_BREAK = 1;
 const MODE_FLAT = 2;

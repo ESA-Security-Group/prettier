@@ -70,6 +70,7 @@ const {
   isColonNode,
   isMediaAndSupportsKeywords,
   isColorAdjusterFuncNode
+  isMediaAndSupportsKeywords
 } = require("./utils");
 
 function shouldPrintComma(options) {
@@ -889,6 +890,7 @@ function printNodeSequence(path, options, print) {
           ) &&
           node.nodes[i].type !== "yaml" &&
           node.nodes[i].type !== "toml"
+          isNextLineEmpty(options.originalText, pathChild.getValue(), options)
         ) {
           parts.push(hardline);
         }

@@ -30,6 +30,11 @@ function genericPrint(path, options, print) {
       path.map((pathChild, index) => {
         parts.push(concat([pathChild.call(print)]));
         if (index !== n.definitions.length - 1) {
+        parts.push(hardline);
+        if (
+          index !== n.definitions.length - 1 &&
+          isNextLineEmpty(options.originalText, pathChild.getValue(), options)
+        ) {
           parts.push(hardline);
           if (
             isNextLineEmpty(options.originalText, pathChild.getValue(), options)

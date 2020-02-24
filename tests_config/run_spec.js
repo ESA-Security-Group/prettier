@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 const raw = require("jest-snapshot-serializer-raw").wrap;
+const extname = require("path").extname;
+const prettier = require("prettier/local");
 
 const AST_COMPARE = process.env["AST_COMPARE"];
 const TEST_STANDALONE = process.env["TEST_STANDALONE"];
