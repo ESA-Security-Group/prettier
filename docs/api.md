@@ -9,7 +9,7 @@ const prettier = require("prettier");
 
 ## `prettier.format(source [, options])`
 
-`format` is used to format text using Prettier. [Options](options.md) may be provided to override the defaults.
+`format` is used to format text using Prettier. [Options](options.md) may be provided to override the defaults. Set `options.parser` according to the language you are formatting (see the [list of available parsers](options.md#parser)).
 
 ```js
 prettier.format("foo ( );", { semi: false, parser: "babel" });
@@ -49,7 +49,7 @@ prettier.resolveConfig(filePath).then(options => {
 });
 ```
 
-If `options.editorconfig` is `true` and an [`.editorconfig` file](http://editorconfig.org/) is in your project, Prettier will parse it and convert its properties to the corresponding prettier configuration. This configuration will be overridden by `.prettierrc`, etc. Currently, the following EditorConfig properties are supported:
+If `options.editorconfig` is `true` and an [`.editorconfig` file](https://editorconfig.org/) is in your project, Prettier will parse it and convert its properties to the corresponding prettier configuration. This configuration will be overridden by `.prettierrc`, etc. Currently, the following EditorConfig properties are supported:
 
 - `end_of_line`
 - `indent_style`
@@ -94,9 +94,13 @@ As you repeatedly call `resolveConfig`, the file system structure will be cached
 }
 ```
 
+The promise will be rejected if the type of `filePath` is not `string`.
+
 Setting `options.ignorePath` (`string`) and `options.withNodeModules` (`boolean`) influence the value of `ignored` (`false` by default).
 
 Providing [plugin](plugins.md) paths in `options.plugins` (`string[]`) helps extract `inferredParser` for files that are not supported by Prettier core.
+
+When setting `options.resolveConfig` (`boolean`, default `false`), Prettier will resolve the configuration for the given `filePath`. This is useful, for example, when the `inferredParser` might be overridden for a subset of files.
 
 Use `prettier.getFileInfo.sync(filePath [, options])` if you'd like to use sync version.
 

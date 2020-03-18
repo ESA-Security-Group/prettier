@@ -9,7 +9,7 @@ const {
   group,
   indent,
   ifBreak
-} = require("../doc").builders;
+} = require("../document").builders;
 const { hasIgnoreComment } = require("../common/util");
 const { isNextLineEmpty } = require("../common/util-shared");
 const { insertPragma } = require("./pragma");
@@ -385,6 +385,7 @@ function genericPrint(path, options, print) {
               ])
             )
           : "",
+        n.repeatable ? " repeatable" : "",
         concat([" on ", join(" | ", path.map(print, "locations"))])
       ]);
     }
